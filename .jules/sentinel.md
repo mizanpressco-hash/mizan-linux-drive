@@ -1,0 +1,4 @@
+## 2024-05-15 - Strict CSP with SHA-256 for inline styles
+**Vulnerability:** Static pages without Content Security Policy (CSP) headers are vulnerable to XSS if future updates introduce unsanitized content, or external assets are inadvertently added.
+**Learning:** For entirely static HTML sites with inline `<style>` tags and no external assets, a strict CSP (`default-src 'none'`) with SHA-256 hashes for the inline styles is highly effective. The learning is that maintaining this requires re-calculating the hashes (`echo -n "style content" | openssl dgst -sha256 -binary | openssl base64`) whenever the CSS changes.
+**Prevention:** Future modifications to `index.html` or `privacy.html` must include recalculating and updating the SHA-256 hash in the `<meta http-equiv="Content-Security-Policy">` tag if the inline styles change, to prevent the styles from being blocked and ensure the strict security posture is maintained.
